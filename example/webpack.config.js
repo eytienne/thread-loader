@@ -17,12 +17,13 @@ module.exports = (env = {}) => {
     poolTimeout: env.watch ? Infinity : 2000,
   };
 
-  if (+env.threads > 0) {
-    threadLoader.warmup(workerPool, ['babel-loader', 'babel-preset-env']);
-    threadLoader.warmup(workerPoolSass, ['sass-loader', 'css-loader']);
-  }
+  threadLoader.warmup(workerPool, ['babel-loader', 'babel-preset-env']);
+  threadLoader.warmup(workerPoolSass, ['sass-loader', 'css-loader']);
 
   return {
+    cache: {
+      type: 'filesystem',
+    },
     mode: 'development',
     context: __dirname,
     entry: ['react', 'lodash-es', './index.js'],
